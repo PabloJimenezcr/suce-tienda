@@ -23,5 +23,8 @@
 hs_err_pid*
 replay_pid*
 
+# Archivos generados por Maven
+/target/
+
 # Credenciales privadas de Firebase
 /src/main/resources/firebase/*.json
