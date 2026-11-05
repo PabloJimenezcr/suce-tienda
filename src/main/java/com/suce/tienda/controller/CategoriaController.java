@@ -2,12 +2,9 @@ package com.suce.tienda.controller;
 
 import com.suce.tienda.domain.Categoria;
 import com.suce.tienda.service.CategoriaService;
-
 import jakarta.validation.Valid;
 import java.util.Locale;
-
 import lombok.RequiredArgsConstructor;
-
 import org.springframework.context.MessageSource;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
@@ -24,6 +21,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequiredArgsConstructor
 @RequestMapping("/categoria")
 public class CategoriaController {
+
     private final CategoriaService categoriaService;
     private final MessageSource messageSource;
 
@@ -36,20 +34,23 @@ public class CategoriaController {
     }
 
     @PostMapping("/guardar")
-    public String guardar(@Valid Categoria categoria,BindingResult bindingResult,
+    public String guardar(@Valid Categoria categoria, BindingResult bindingResult,
             @RequestParam(value = "imagenFile", required = false) MultipartFile imagenFile,
             RedirectAttributes redirectAttributes) {
+        String titulo = "todoOk";
+        String mensaje = "mensaje.actualizado";
         if (bindingResult.hasErrors()) {
-            redirectAttributes.addFlashAttribute("error",
-                    messageSource.getMessage("categoria.error04",null,Locale.getDefault()));
-            return "redirect:/categoria/listado";
+            titulo = "error";
+            mensaje = "producto.error04";
+        } else {
+            try {
+                categoriaService.save(categoria, imagenFile);
+            } catch (DataIntegrityViolationException e) {
+                titulo = "error";
+                mensaje = "producto.error05";
+            }
         }
-        try {
-            categoriaService.save(categoria, imagenFile);
-            redirectAttributes.addFlashAttribute("todoOk",messageSource.getMessage("mensaje.actualizado",null,Locale.getDefault()));
-        } catch (DataIntegrityViolationException e) {
-            redirectAttributes.addFlashAttribute("error",messageSource.getMessage("categoria.error05",null,Locale.getDefault()));
-        }
+        redirectAttributes.addFlashAttribute(titulo, messageSource.getMessage(mensaje, null, Locale.getDefault()));
         return "redirect:/categoria/listado";
     }
 
@@ -66,7 +67,7 @@ public class CategoriaController {
             titulo = "error"; // Captura la excepción de estado ilegal para el mensaje de "datos asociados"
             detalle = "categoria.error02";
         } catch (Exception e) {
-            titulo = "error";  // Captura cualquier otra excepción inesperada
+            titulo = "error"; // Captura cualquier otra excepción inesperada
             detalle = "categoria.error03";
         }
         redirectAttributes.addFlashAttribute(titulo, messageSource.getMessage(detalle, null, Locale.getDefault()));
