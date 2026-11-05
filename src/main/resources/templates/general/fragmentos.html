@@ -1,83 +1,75 @@
+<!-- Fragmento 1: configuración general del head -->
 
-<!-- Fragmento #1 que irá en el head de todas las páginas, así se incluye todo lo necesario de configuración-->
 <head th:fragment="head">
     <title>TechShop</title>
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="icon" type="image/png" sizes="16x16" th:href="@{/fav/favicon-16x16.png}"/>
-    <link rel="icon" type="image/png" sizes="32x32" th:href="@{/fav/favicon-32x32.png}"/>
-    <link rel="icon" type="image/png" sizes="96x96" th:href="@{/fav/favicon-96x96.png}"/>
-    <link rel="icon" type="image/png" sizes="256x256" th:href="@{/fav/favicon-256x256.png}"/>
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="16x16" th:href="@{/fav/favicon-16x16.png}">
+    <link rel="icon" type="image/png" sizes="32x32" th:href="@{/fav/favicon-32x32.png}">
+    <link rel="icon" type="image/png" sizes="96x96" th:href="@{/fav/favicon-96x96.png}">
+    <link rel="icon" type="image/png" sizes="256x256" th:href="@{/fav/favicon-256x256.png}">
 
-    <link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" rel="stylesheet"/>
-    <link th:href="@{/webjars/font-awesome/css/all.css}" rel="stylesheet"/>
-    <link th:href="@{/css/estilos.css}" rel="stylesheet"/>
+    <!-- Bootstrap -->
+    <link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
 
-    <script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}" defer></script>
-    <script th:src="@{/webjars/jquery/jquery.min.js}" defer></script>
-    <script th:src="@{/js/rutinas.js}" defer></script>
-    <script th:src="@{/js/modulos/categoria.js}" defer></script>
+    <!-- Font Awesome -->
+    <link th:href="@{/webjars/font-awesome/css/all.css}" rel="stylesheet">
+
+    <!-- CSS personalizado de TechShop -->
+    <link th:href="@{/css/estilos.css}" rel="stylesheet">
+
+    <!-- JavaScript -->
+    <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+    <script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+    <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+    <script th:src="@{/js/rutinas.js}"></script>
 </head>
 
 
-<!-- Fragmento #2 define el encabezado de las páginas, en concreto el menú y enlaces rápidos -->
-<header th:fragment="header" class="header app-header">
-    <nav class="navbar navbar-expand-lg app-navbar">
+<!-- Fragmento 2: encabezado y navegación -->
+<header th:fragment="header" class="header">
+
+    <nav class="navbar navbar-expand-sm p-0">
         <div class="container">
 
             <a th:href="@{/}" class="navbar-brand">
-                <span class="brand-mark">
-                    <i class="fa-solid fa-bag-shopping"></i>
-                </span>
-                <span class="brand-name">[[#{aplicacion.titulo}]]</span>
+                [[#{aplicacion.titulo}]]
             </a>
 
-            <button class="navbar-toggler"
-                    type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#navbarCollapse"
-                    aria-controls="navbarCollapse"
-                    aria-expanded="false"
-                    aria-label="Abrir menú">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
+                aria-controls="navbarCollapse" aria-expanded="false" aria-label="Abrir navegación">
+
                 <span class="navbar-toggler-icon"></span>
             </button>
 
             <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
 
-                <ul class="navbar-nav"
-                    sec:authorize="hasRole('ROLE_ADMIN') or hasRole('ROLE_VENDEDOR')">
+                <ul class="navbar-nav">
 
-                    <li class="nav-item">
+                    <li class="nav-item px-2">
                         <a class="nav-link" th:href="@{/categoria/listado}">
-                            <i class="fa-solid fa-layer-group"></i>
                             [[#{plantilla.categorias}]]
                         </a>
                     </li>
 
-                    <li class="nav-item">
+                    <li class="nav-item px-2">
                         <a class="nav-link" th:href="@{/producto/listado}">
-                            <i class="fa-solid fa-box"></i>
                             [[#{plantilla.productos}]]
                         </a>
                     </li>
 
-                    <li class="nav-item">
+                    <li class="nav-item px-2">
                         <a class="nav-link" th:href="@{/consultas/listado}">
-                            <i class="fa-solid fa-chart-line"></i>
                             [[#{plantilla.consultas}]]
                         </a>
                     </li>
 
-                    <li class="nav-item dropdown"
-                        sec:authorize="hasRole('ROLE_ADMIN')">
+                    <li class="nav-item dropdown">
 
-                        <a class="nav-link dropdown-toggle"
-                           data-bs-toggle="dropdown"
-                           href="#"
-                           role="button"
-                           aria-expanded="false">
-                            <i class="fa-solid fa-shield-halved"></i>
+                        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
+                            aria-expanded="false">
                             [[#{plantilla.admin}]]
                         </a>
 
@@ -85,22 +77,19 @@
 
                             <li>
                                 <a class="dropdown-item" th:href="@{/usuario/listado}">
-                                    <i class="fa-solid fa-users"></i>
                                     [[#{plantilla.usuarios}]]
                                 </a>
                             </li>
 
                             <li class="submenu submenu-md dropend">
-                                <a class="dropdown-item dropdown-toggle"
-                                   role="button"
-                                   data-bs-toggle="dropdown"
-                                   aria-expanded="false"
-                                   onclick="event.stopPropagation();">
-                                    <i class="fa-solid fa-lock"></i>
+
+                                <a class="dropdown-item dropdown-toggle" role="button" data-bs-toggle="dropdown"
+                                    aria-expanded="false" onclick="event.stopPropagation();">
                                     [[#{plantilla.seguridad}]]
                                 </a>
 
                                 <ul class="dropdown-menu">
+
                                     <li>
                                         <a class="dropdown-item" th:href="@{/role/listado}">
                                             [[#{plantilla.troles}]]
@@ -118,6 +107,7 @@
                                             [[#{plantilla.rutas}]]
                                         </a>
                                     </li>
+
                                 </ul>
                             </li>
 
@@ -126,46 +116,50 @@
                                     [[#{plantilla.constantes}]]
                                 </a>
                             </li>
+
                         </ul>
                     </li>
+
                 </ul>
 
                 <ul class="navbar-nav">
+
                     <li class="nav-item dropdown">
 
-                        <a class="nav-link dropdown-toggle"
-                           data-bs-toggle="dropdown"
-                           href="#"
-                           role="button"
-                           aria-expanded="false">
-                            <i class="fa-solid fa-globe"></i>
+                        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
+                            aria-expanded="false">
                             [[#{plantilla.idioma}]]
                         </a>
 
-                        <ul class="dropdown-menu dropdown-menu-end">
+                        <ul class="dropdown-menu">
+
                             <li>
                                 <a class="dropdown-item" th:href="@{/(lang=es)}">
-                                    🇪🇸 Español
+                                    Español
                                 </a>
                             </li>
+
                             <li>
                                 <a class="dropdown-item" th:href="@{/(lang=en)}">
-                                    🇺🇸 English
+                                    English
                                 </a>
                             </li>
+
                             <li>
                                 <a class="dropdown-item" th:href="@{/(lang=fr)}">
-                                    🇫🇷 Français
+                                    Française
                                 </a>
                             </li>
+
                             <li>
                                 <a class="dropdown-item" th:href="@{/(lang=pt)}">
-                                    🇵🇹 Português
+                                    Português
                                 </a>
                             </li>
-                        </ul>
 
+                        </ul>
                     </li>
+
                 </ul>
 
                 <div id="resultBlock"></div>
@@ -174,150 +168,170 @@
         </div>
     </nav>
 
-    <section id="main-header" class="shop-hero py-3 text-white d-print-none">
+    <section id="main-header" class="py-2 bg-success text-white">
+
         <div class="container">
+
             <div class="row">
-                <div class="col-12">
+
+                <div class="col-md-6">
+
                     <h1>
-                        <i class="fa-solid fa-bag-shopping"></i>
-                        <span>[[#{plantilla.suTienda}]]</span>
+                        <i class="fas fa-cog"></i>
+                        [[#{plantilla.suTienda}]]
                     </h1>
+
                 </div>
+
             </div>
+
         </div>
+
     </section>
+
 </header>
 
 
-<!-- Fragmento #3 define el footer de las páginas -->
-<footer th:fragment="footer" class="shop-footer p-2 d-print-none">
+<!-- Fragmento 3: footer -->
+<footer th:fragment="footer" class="p-2 mt-5 bg-info text-white">
+
     <p class="lead text-center">
-        <span class="footer-accent">TechShop</span>
         [[#{plantilla.derechos}]] &COPY;
     </p>
+
 </footer>
 
 
-<!-- Fragmento #4 define una ventana tipo Toast para mostrar mensajes al usuario -->
-<section th:fragment="mostrarToast">
-    <div class="toast-stack position-fixed top-0 end-0 p-3">
+<!-- Fragmento 4: modal general de confirmación de eliminación -->
+<section th:fragment="confirmarEliminar(urlAccion, nombreParametro)">
 
-        <div th:if="${error}"
-             class="toast show custom-toast toast-error"
-             role="alert"
-             aria-live="assertive"
-             aria-atomic="true"
-             data-toast-autohide="true"
-             data-toast-duration="5000">
+    <div th:fragment="confirmarEliminar(urlAccion, nombreParametro)" class="modal fade" id="confirmModal" tabindex="-1"
+        aria-hidden="true">
 
-            <div class="custom-toast-icon">
-                <i class="fa-solid fa-circle-exclamation"></i>
-            </div>
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
 
-            <div class="custom-toast-content">
-                <strong class="custom-toast-title">[[#{error}]]</strong>
-                <p class="custom-toast-message">[[${error}]]</p>
-            </div>
+                <form method="post" th:action="${urlAccion}">
 
-            <button type="button"
-                    class="custom-toast-close"
-                    data-toast-dismiss="true"
-                    aria-label="[[#{accion.cerrar}]]">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
-
-            <div class="toast-progress"></div>
-        </div>
-
-        <div th:if="${todoOk}"
-             class="toast show custom-toast toast-success"
-             role="status"
-             aria-live="polite"
-             aria-atomic="true"
-             data-toast-autohide="true"
-             data-toast-duration="5000">
-
-            <div class="custom-toast-icon">
-                <i class="fa-solid fa-circle-check"></i>
-            </div>
-
-            <div class="custom-toast-content">
-                <strong class="custom-toast-title">[[#{atencion}]]</strong>
-                <p class="custom-toast-message">[[${todoOk}]]</p>
-            </div>
-
-            <button type="button"
-                    class="custom-toast-close"
-                    data-toast-dismiss="true"
-                    aria-label="[[#{accion.cerrar}]]">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
-
-            <div class="toast-progress"></div>
-        </div>
-
-    </div>
-</section>
-
-
-<!-- Fragmento #5 define una ventana tipo modal para confirmar la eliminación -->
-<section th:fragment="confirmarEliminar(accionEliminar, nombreId)">
-    <div class="modal fade"
-         id="confirmModal"
-         tabindex="-1"
-         aria-labelledby="modalLabel"
-         aria-hidden="true">
-
-        <div class="modal-dialog modal-dialog-centered custom-modal-animation">
-            <div class="modal-content premium-modal-content animate-slide-up">
-
-                <form th:action="${accionEliminar}" method="post">
-
-                    <input type="hidden"
-                           th:attr="name=${nombreId}"
-                           id="modalId"/>
-
-                    <div class="modal-header premium-modal-header">
-                        <span class="category-modal-title-icon">
-                            <i class="fa-solid fa-triangle-exclamation"></i>
-                        </span>
-
-                        <h5 class="modal-title" id="modalLabel">
+                    <div class="modal-header bg-danger text-white">
+                        <h5 class="modal-title">
                             [[#{accion.confirmar}]]
                         </h5>
 
-                        <button type="button"
-                                class="btn-close"
-                                data-bs-dismiss="modal"
-                                aria-label="[[#{accion.cerrar}]]">
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                            aria-label="Cerrar">
                         </button>
                     </div>
 
                     <div class="modal-body">
+
                         <p>
                             [[#{accion.confirmar.texto1}]]
                             <strong id="modalDescripcion"></strong>?
                         </p>
 
-                        <h6>[[#{accion.confirmar.texto2}]]</h6>
+                        <p>
+                            [[#{accion.confirmar.texto2}]]
+                        </p>
+
+                        <input type="hidden" id="modalId" th:name="${nombreParametro}" />
+
                     </div>
 
                     <div class="modal-footer">
+
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                            <i class="fa-solid fa-xmark"></i>
+                            [[#{accion.cerrar}]]
+                        </button>
+
                         <button type="submit" class="btn btn-danger">
                             <i class="fa-solid fa-trash"></i>
                             [[#{accion.eliminar}]]
                         </button>
 
-                        <button type="button"
-                                class="btn btn-secondary"
-                                data-bs-dismiss="modal">
-                            <i class="fa-solid fa-xmark"></i>
-                            [[#{accion.cerrar}]]
-                        </button>
                     </div>
 
                 </form>
+
             </div>
         </div>
     </div>
+
+</section>
+
+
+<!-- Fragmento 5: notificaciones Toast -->
+<section th:fragment="mostrarToast">
+
+    <div aria-live="polite" aria-atomic="true" class="position-fixed top-50 start-50 translate-middle"
+        style="z-index: 1080;">
+
+        <!-- Notificación de error -->
+        <div th:if="${error}" class="toast show" role="alert" aria-live="assertive" aria-atomic="true"
+            data-bs-autohide="true">
+
+            <div class="toast-header text-white bg-danger">
+
+                <i class="fa-solid fa-bomb"></i>
+
+                <strong class="me-auto">
+                    [[#{error}]]
+                </strong>
+
+            </div>
+
+            <div class="toast-body">
+
+                <p>[[${error}]]</p>
+
+                <div class="mt-2 pt-2 border-top text-center">
+
+                    <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="toast">
+
+                        [[#{accion.cerrar}]]
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Notificación de éxito -->
+        <div th:if="${todoOk}" class="toast show" role="status" aria-live="polite" aria-atomic="true"
+            data-bs-autohide="true">
+
+            <div class="toast-header text-white bg-success">
+
+                <i class="fa-solid fa-square-check"></i>
+
+                <strong class="me-auto">
+                    [[#{atencion}]]
+                </strong>
+
+            </div>
+
+            <div class="toast-body">
+
+                <p>[[${todoOk}]]</p>
+
+                <div class="mt-2 pt-2 border-top text-center">
+
+                    <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="toast">
+
+                        [[#{accion.cerrar}]]
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
 </section>
