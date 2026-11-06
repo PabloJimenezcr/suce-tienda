@@ -12,16 +12,33 @@ public interface ProductoRepository extends JpaRepository<Producto, Integer> {
 
     public List<Producto> findByActivoTrue();
 
-    //Ejemplo de método utilizando consultas derivadas
-    public List<Producto> findByPrecioBetweenOrderByPrecioAsc(double precioInf, double precioSup);
+    // Consulta derivada: productos dentro de un rango de precios
+    public List<Producto> findByPrecioBetweenOrderByPrecioAsc(
+            double precioInf, double precioSup);
 
-    //Ejemplo de método utilizando consultas JPQL
-    @Query(value = "SELECT p FROM Producto p WHERE p.precio BETWEEN :precioInf AND :precioSup ORDER BY p.precio ASC")
-    public List<Producto> consultaJPQL(@Param("precioInf") double precioInf, @Param("precioSup") double precioSup);
+    // Consulta JPQL: productos dentro de un rango de precios
+    @Query("SELECT p FROM Producto p "
+            + "WHERE p.precio BETWEEN :precioInf AND :precioSup "
+            + "ORDER BY p.precio ASC")
+    public List<Producto> consultaJPQL(
+            @Param("precioInf") double precioInf,
+            @Param("precioSup") double precioSup);
 
-    //Ejemplo de método utilizando consultas SQL nativas
-    @Query(nativeQuery = true,
-            value = "SELECT * FROM producto p WHERE p.precio BETWEEN :precioInf AND :precioSup ORDER BY p.precio ASC")
-    public List<Producto> consultaSQL(@Param("precioInf") double precioInf, @Param("precioSup") double precioSup);
+    // Consulta SQL nativa: productos dentro de un rango de precios
+    @Query(value = "SELECT * FROM producto p "
+            + "WHERE p.precio BETWEEN :precioInf AND :precioSup "
+            + "ORDER BY p.precio ASC", nativeQuery = true)
+    public List<Producto> consultaSQL(
+            @Param("precioInf") double precioInf,
+            @Param("precioSup") double precioSup);
 
+    // Consulta ampliada: productos activos con existencias bajas
+    // Incluye su categoría y ordena por existencias y descripción
+    @Query("SELECT p FROM Producto p "
+            + "JOIN FETCH p.categoria "
+            + "WHERE p.existencias <= :limite "
+            + "AND p.activo = true "
+            + "ORDER BY p.existencias ASC, p.descripcion ASC")
+    public List<Producto> consultaStockBajo(
+            @Param("limite") Integer limite);
 }
